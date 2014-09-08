@@ -13,6 +13,13 @@ Call `setAdapter(ListAdapter adapter)` as you normally would.  Don't worry about
 
 Use the method `setHeaderDrawable(Drawable drawable)` to set a header image.
 
+### To do:
+
+1. Allow for a `ViewGroup` in the header view, but keep the `setHeaderDrawable(Drawable drawable)` method.
+2. Allow for customization of header view height using styleable attributes.
+3. Allow for customization of parallax factor.  Currently header scrolls at 1/2 speed of `ListView`.
+3. Publish to Maven Central.
+
 ### License
 
 The MIT License (MIT)
