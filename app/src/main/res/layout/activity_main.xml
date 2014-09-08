@@ -2,7 +2,8 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-    <me.mattlogan.parallaxlistview.view.ParallaxListView
+    <me.mattlogan.parallaxlistview.library.ParallaxListView
+        android:id="@+id/parallax_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
