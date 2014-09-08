@@ -20,7 +20,6 @@ public class ParallaxListView extends FrameLayout implements AbsListView.OnScrol
     private LinearLayout mBackgroundLayout;
     private ImageView mBackgroundHeader;
     private int mHeaderHeight;
-    private View mBackgroundLowerView;
 
     private ListView mListView;
     private View mTransparentHeader;
@@ -47,7 +46,8 @@ public class ParallaxListView extends FrameLayout implements AbsListView.OnScrol
 
         mScrollView = new ScrollView(context);
         mScrollView.setLayoutParams(new LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                ViewGroup.LayoutParams.MATCH_PARENT, mHeaderHeight));
+        mScrollView.setVerticalScrollBarEnabled(false);
         addView(mScrollView);
 
         mBackgroundLayout = new LinearLayout(context);
@@ -60,11 +60,6 @@ public class ParallaxListView extends FrameLayout implements AbsListView.OnScrol
         mBackgroundHeader.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, mHeaderHeight));
         mBackgroundLayout.addView(mBackgroundHeader);
-
-        mBackgroundLowerView = new View(context);
-        mBackgroundLowerView.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, mHeaderHeight));
-        mBackgroundLayout.addView(mBackgroundLowerView);
 
         mListView = new ListView(context);
         mListView.setLayoutParams(new ViewGroup.LayoutParams(
@@ -90,11 +85,19 @@ public class ParallaxListView extends FrameLayout implements AbsListView.OnScrol
     @Override public void onScrollStateChanged(AbsListView absListView, int i) {
     }
 
-    @Override public void onScroll(AbsListView absListView, int i, int i2, int i3) {
+    @Override public void onScroll(AbsListView absListView, int firstVisibleItem,
+                                   int visibleItemCount, int totalItemCount) {
+
         View firstChild = absListView.getChildAt(0);
         if (firstChild != null && firstChild == mTransparentHeader) {
             int scrollY = -absListView.getChildAt(0).getTop();
-            mScrollView.scrollTo(0, (int) (scrollY / 2f));
+            if (mScrollView.getScrollY() != scrollY) {
+                mScrollView.scrollTo(0, (int) (scrollY / 2f));
+
+                ViewGroup.LayoutParams lp = mScrollView.getLayoutParams();
+                lp.height = mHeaderHeight - scrollY;
+                mScrollView.setLayoutParams(lp);
+            }
         }
     }
 
