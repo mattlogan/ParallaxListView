@@ -17,6 +17,12 @@ import me.mattlogan.parallaxlistview.library.ParallaxListView;
 
 public class MainActivity extends ActionBarActivity {
 
+    private static String[] sSongList = new String[] {
+            "Mozart's House", "Extraordinary", "Dust Clears", "Rather Be", "A+E", "Come Over",
+            "Cologne", "Telephone Banking", "Up Again", "Heart On Fire", "New Eyes", "Birch",
+            "Outro Movement III", "Rihanna", "UK Shanty", "Nightingale"
+    };
+
     private ParallaxListView mParallaxListView;
 
     @Override
@@ -28,7 +34,7 @@ public class MainActivity extends ActionBarActivity {
         mParallaxListView.setAdapter(new ListAdapter());
 
         mParallaxListView.setBackgroundHeaderDrawable(
-                getResources().getDrawable(R.drawable.ic_launcher));
+                getResources().getDrawable(R.drawable.clean_bandit));
     }
 
     private static class ViewHolder {
@@ -38,11 +44,11 @@ public class MainActivity extends ActionBarActivity {
     private class ListAdapter extends BaseAdapter {
 
         @Override public int getCount() {
-            return 1000;
+            return sSongList.length;
         }
 
         @Override public Object getItem(int i) {
-            return i;
+            return sSongList[i];
         }
 
         @Override public long getItemId(int i) {
@@ -62,7 +68,7 @@ public class MainActivity extends ActionBarActivity {
                 vh = (ViewHolder) view.getTag();
             }
 
-            vh.textView.setText("List Item #" + i);
+            vh.textView.setText(sSongList[i]);
 
             return view;
         }

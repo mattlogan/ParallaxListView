@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -42,7 +43,12 @@ public class ParallaxListView extends FrameLayout implements AbsListView.OnScrol
     }
 
     private void init(Context context) {
-        mHeaderHeight = (int) (context.getResources().getDisplayMetrics().heightPixels * 2 / 3f);
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        if (dm.heightPixels > dm.widthPixels) {
+            mHeaderHeight = context.getResources().getDisplayMetrics().widthPixels;
+        } else {
+            mHeaderHeight = (int) (context.getResources().getDisplayMetrics().heightPixels / 2f);
+        }
 
         mScrollView = new ScrollView(context);
         mScrollView.setLayoutParams(new LayoutParams(
@@ -59,6 +65,7 @@ public class ParallaxListView extends FrameLayout implements AbsListView.OnScrol
         mBackgroundHeader = new ImageView(context);
         mBackgroundHeader.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, mHeaderHeight));
+        mBackgroundHeader.setScaleType(ImageView.ScaleType.CENTER_CROP);
         mBackgroundLayout.addView(mBackgroundHeader);
 
         mListView = new ListView(context);
