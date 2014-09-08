@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -15,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 
-public class ParallaxListView extends FrameLayout {
+public class ParallaxListView extends FrameLayout implements AbsListView.OnScrollListener {
 
     private ScrollView mScrollView;
     private LinearLayout mBackgroundLayout;
@@ -70,22 +69,7 @@ public class ParallaxListView extends FrameLayout {
         mListView = new ListView(context);
         mListView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override public void onScrollStateChanged(AbsListView absListView, int i) {
-
-            }
-
-            @Override public void onScroll(AbsListView view, int firstVisibleItem,
-                                            int visibleItemCount, int totalItemCount) {
-
-                View firstChild = view.getChildAt(0);
-                if (firstChild != null && firstChild == mTransparentHeader) {
-                    int scrollY = -view.getChildAt(0).getTop();
-                    Log.d("testing", "scrolly: " + scrollY);
-                    mScrollView.scrollTo(0, (int) (scrollY / 2f));
-                }
-            }
-        });
+        mListView.setOnScrollListener(this);
         addView(mListView);
 
         mTransparentHeader = new View(context);
@@ -101,6 +85,17 @@ public class ParallaxListView extends FrameLayout {
 
     public void setBackgroundHeaderDrawable(Drawable drawable) {
         mBackgroundHeader.setImageDrawable(drawable);
+    }
+
+    @Override public void onScrollStateChanged(AbsListView absListView, int i) {
+    }
+
+    @Override public void onScroll(AbsListView absListView, int i, int i2, int i3) {
+        View firstChild = absListView.getChildAt(0);
+        if (firstChild != null && firstChild == mTransparentHeader) {
+            int scrollY = -absListView.getChildAt(0).getTop();
+            mScrollView.scrollTo(0, (int) (scrollY / 2f));
+        }
     }
 
     private class ActualAdapter extends BaseAdapter {
