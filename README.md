@@ -11,7 +11,7 @@ Use a `ParallaxListView` where you'd normally use a `ListView`.
 
 Call `setAdapter(ListAdapter adapter)` as you normally would.  Don't worry about the header.
 
-Use the method `setBackgroundHeaderDrawable(Drawable drawable)` to set a header image.
+Use the method `setHeaderDrawable(Drawable drawable)` to set a header image.
 
 ### License
 
