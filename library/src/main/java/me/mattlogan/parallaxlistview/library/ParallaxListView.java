@@ -19,7 +19,7 @@ public class ParallaxListView extends FrameLayout implements AbsListView.OnScrol
 
     private ScrollView mScrollView;
     private LinearLayout mBackgroundLayout;
-    private ImageView mBackgroundHeader;
+    private ImageView mHeaderImage;
     private int mHeaderHeight;
 
     private ListView mListView;
@@ -62,11 +62,11 @@ public class ParallaxListView extends FrameLayout implements AbsListView.OnScrol
         mBackgroundLayout.setOrientation(LinearLayout.VERTICAL);
         mScrollView.addView(mBackgroundLayout);
 
-        mBackgroundHeader = new ImageView(context);
-        mBackgroundHeader.setLayoutParams(new LinearLayout.LayoutParams(
+        mHeaderImage = new ImageView(context);
+        mHeaderImage.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, mHeaderHeight));
-        mBackgroundHeader.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        mBackgroundLayout.addView(mBackgroundHeader);
+        mHeaderImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        mBackgroundLayout.addView(mHeaderImage);
 
         mListView = new ListView(context);
         mListView.setLayoutParams(new ViewGroup.LayoutParams(
@@ -85,8 +85,8 @@ public class ParallaxListView extends FrameLayout implements AbsListView.OnScrol
         mListView.setAdapter(new ActualAdapter());
     }
 
-    public void setBackgroundHeaderDrawable(Drawable drawable) {
-        mBackgroundHeader.setImageDrawable(drawable);
+    public void setHeaderDrawable(Drawable drawable) {
+        mHeaderImage.setImageDrawable(drawable);
     }
 
     @Override public void onScrollStateChanged(AbsListView absListView, int i) {

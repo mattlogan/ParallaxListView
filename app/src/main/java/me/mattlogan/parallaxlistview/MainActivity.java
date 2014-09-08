@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
         mParallaxListView = (ParallaxListView) findViewById(R.id.parallax_listview);
         mParallaxListView.setAdapter(new ListAdapter());
 
-        mParallaxListView.setBackgroundHeaderDrawable(
+        mParallaxListView.setHeaderDrawable(
                 getResources().getDrawable(R.drawable.clean_bandit));
     }
 
