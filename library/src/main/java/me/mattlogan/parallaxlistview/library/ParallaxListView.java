@@ -130,13 +130,21 @@ public class ParallaxListView extends FrameLayout implements AbsListView.OnScrol
                                    int visibleItemCount, int totalItemCount) {
 
         View firstChild = absListView.getChildAt(0);
-        if (firstChild != null && firstChild == mTransparentHeader) {
-            int scrollY = -absListView.getChildAt(0).getTop();
-            if (mScrollView.getScrollY() != scrollY) {
-                mScrollView.scrollTo(0, (int) (scrollY / mParallaxFactor));
+        if (firstChild != null) {
+            if (firstChild == mTransparentHeader) {
+                int scrollY = -firstChild.getTop();
+                if (mScrollView.getScrollY() != scrollY) {
+                    mScrollView.scrollTo(0, (int) (scrollY / mParallaxFactor));
+
+                    ViewGroup.LayoutParams lp = mScrollView.getLayoutParams();
+                    lp.height = mHeaderHeight - scrollY;
+                    mScrollView.setLayoutParams(lp);
+                }
+            } else {
+                mScrollView.scrollTo(0, mHeaderHeight);
 
                 ViewGroup.LayoutParams lp = mScrollView.getLayoutParams();
-                lp.height = mHeaderHeight - scrollY;
+                lp.height = 0;
                 mScrollView.setLayoutParams(lp);
             }
         }
