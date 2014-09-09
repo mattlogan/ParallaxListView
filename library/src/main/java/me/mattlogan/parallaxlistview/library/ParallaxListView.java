@@ -1,10 +1,14 @@
 package me.mattlogan.parallaxlistview.library;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -25,24 +29,26 @@ public class ParallaxListView extends FrameLayout implements AbsListView.OnScrol
     private ListView mListView;
     private View mTransparentHeader;
 
+    private float mParallaxFactor = 2;
+
     private BaseAdapter adapter;
 
     public ParallaxListView(Context context) {
         super(context);
-        init(context);
+        init(context, null);
     }
 
     public ParallaxListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context, attrs);
     }
 
     public ParallaxListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context);
+        init(context, attrs);
     }
 
-    private void init(Context context) {
+    private void init(Context context, AttributeSet attrs) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         if (dm.heightPixels > dm.widthPixels) {
             mHeaderHeight = context.getResources().getDisplayMetrics().widthPixels;
@@ -78,6 +84,34 @@ public class ParallaxListView extends FrameLayout implements AbsListView.OnScrol
         mTransparentHeader.setBackgroundColor(Color.TRANSPARENT);
         mTransparentHeader.setLayoutParams(new AbsListView.LayoutParams(
                 AbsListView.LayoutParams.MATCH_PARENT, mHeaderHeight));
+
+        if (attrs != null) {
+            TypedArray a = context
+                    .obtainStyledAttributes(attrs, R.styleable.ParallaxListView, 0, 0);
+            Resources res = getResources();
+            if (a != null && res != null) {
+                try {
+                    int dividerColor = a.getColor(
+                            R.styleable.ParallaxListView_divider_color, Color.WHITE);
+                    mListView.setDivider(new ColorDrawable(dividerColor));
+
+                    int dividerHeight = a.getDimensionPixelSize(
+                            R.styleable.ParallaxListView_divider_height, 1);
+                    mListView.setDividerHeight(dividerHeight);
+
+                    mHeaderHeight = a.getDimensionPixelSize(
+                            R.styleable.ParallaxListView_header_height, mHeaderHeight);
+
+                    mParallaxFactor = a.getFloat(
+                            R.styleable.ParallaxListView_parallax_factor, 2);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    a.recycle();
+                }
+            }
+        }
     }
 
     public void setAdapter(BaseAdapter adapter) {
@@ -99,7 +133,7 @@ public class ParallaxListView extends FrameLayout implements AbsListView.OnScrol
         if (firstChild != null && firstChild == mTransparentHeader) {
             int scrollY = -absListView.getChildAt(0).getTop();
             if (mScrollView.getScrollY() != scrollY) {
-                mScrollView.scrollTo(0, (int) (scrollY / 2f));
+                mScrollView.scrollTo(0, (int) (scrollY / mParallaxFactor));
 
                 ViewGroup.LayoutParams lp = mScrollView.getLayoutParams();
                 lp.height = mHeaderHeight - scrollY;

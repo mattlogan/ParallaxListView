@@ -1,10 +1,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
     <me.mattlogan.parallaxlistview.library.ParallaxListView
         android:id="@+id/parallax_listview"
+        android:background="#0F1010"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:divider_color="#fff"
+        app:divider_height="1px"
+        app:parallax_factor="2"/>
 
 </FrameLayout>
