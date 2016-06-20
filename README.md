@@ -15,11 +15,6 @@ Use the method `setHeaderDrawable(Drawable drawable)` to set a header image.
 
 `ParallaxListView` also contains some styleable attributes, including "divider_color", "divider_height", "header_height", and "parallax_factor" -- see the sample app module for a demo.
 
-### To do:
-
-1. Allow for a `ViewGroup` in the header view, but keep the `setHeaderDrawable(Drawable drawable)` method.
-2. Publish to Maven Central.
-
 ### License
 
 The MIT License (MIT)
